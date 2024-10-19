@@ -1,40 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: default
+title: Home
+notitle: true
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDT501 - Personal Website</title>
-</head>
+# groups of columns of {roles: list, width: num, image: bool}
+role-tables:
+- - roles: [faculty, postdoc, staff]
+    width: 4
+    image: true
+  - roles: [grad]
+    width: 8
+    image: true
+- - roles: [collab, ugrad, ugrad-alum]
+    width: 5
+    image: false
+  - roles: [alum]
+    width: 7
+    image: false
 
-<body>
-    <header>
-        <h1>Zhangqi Chang</h1>
-        <p>Welcome to my website!I am an outgoing big boy who likes to communicate with people. I like all kinds of sports especially playing basketball. Besides, in my spare time I will go to the gym and listen to music to relax myself.</p>
-    </header>
-    <main>
-        <section>
-            <h2>About Me</h2>
-            <p>.</p>
+---
+
+<div class="jumbotron">
+    <p>
+    </p>
+    <p>
+    The <b>XIAO Research Group</b> developed the first <b>string-based invertible, invariant crystallographic representation: SLICES</b>, achieving <b>Text2Crystal</b> powered by generative AI. SLICES has the potential to become a standard tool for <i> in-silico </i> materials discovery, i.e. "SMILES" for crystal structures.
+    </p>
+</div>
+
+<script
+	type="module"
+	src="https://gradio.s3-us-west-2.amazonaws.com/4.41.0/gradio.js"
+></script>
+
+<gradio-app src="https://www.bilibili.com/video/BV1PCsqeiEBn/?spm_id_from=333.999.0.0" theme_mode="light"></gradio-app>
+
+<gradio-app src="https://www.bilibili.com/video/BV15ytpeJEjk/?spm_id_from=333.999.0.0&vd_source=48c9a3f220e9622ef62fc2bde5652359" theme_mode="light"></gradio-app>
+
+
+<section>
+    <h2>News</h2>
+    <ul class="news list-unstyled">
+        {% for post in site.posts limit: site.front_page_news %}
+            {% include news-item.html item=post %}
+        {% endfor %}
+    </ul>
+    {% assign numposts = site.posts | size %}
+    {% if numposts >= 1 %}
+        <p>
+            <span class="fa fa-fw fa-history"></span>
+            <a href="{{ site.base }}/blog.html">Older posts&hellip;</a>
+        </p>
+    {% endif %}
+</section>
+
+
+<div id="people">
+    <h2>People</h2>
+    {% for role-table in page.role-tables %}
+        <section class="people row justify-content-between">
+            {% for role-column in role-table %}
+                <div class="col-md-{{ role-column.width }}">
+                    {% for role in role-column.roles %}
+                        {% include role-people.html role=role image=role-column.image %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </section>
-        <section>
-            <h2>Skills</h2>
-            <ul>
-                <li>Cooking</li>
-                <li>Playing kinds of games about sports</li>
-                <li>singing</li>
-            </ul>
-        </section>
-        <section>
-            <h2>Projects</h2>
-            <p>I won several scholarships during my undergraduate study.</p>
-        </section>
-        <section>
-            <h2>Contact</h2>
-            <p>my WeChat: 0177 </p>
-        </section>
-    </main>
-    <footer>
-        <p>Copyright &copy; [Year] zhangqi. All rights reserved.</p>
-    </footer>
-</body>
+    {% endfor %}
+</div>
